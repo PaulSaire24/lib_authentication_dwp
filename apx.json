@@ -1,0 +1,12 @@
+{
+    "component": "r2artifact",
+    "repoName": "lib_authentication_dwp",
+    "uuaa": "pdwy",
+    "slave_label": "apx",
+    "extra_properties": null,
+    "apxrepoBranch": "master",
+    "componentPaaSId": "lib_authentication_dwp",
+    "appPaaSId": "pdwy",
+    "proyectPaaSId": "pe.pdwy.app-id-221867.dsg",
+    "resource_type": "lib"
+}
