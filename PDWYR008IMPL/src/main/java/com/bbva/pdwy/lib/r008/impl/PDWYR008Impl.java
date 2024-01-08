@@ -46,7 +46,7 @@ public class PDWYR008Impl extends PDWYR008Abstract {
 		} catch (RestClientException ex) {
 			LOGGER.info("executeGetAuthenticationData() - END with RestClientException: {}", ex.getMessage());
 			ApiExceptionHandler handler = new ApiExceptionHandler();
-			handler.handler(ex);
+			throw handler.handler(ex);
 		} catch (TimeoutException ex) {
 			LOGGER.info("executeGetAuthenticationData() - END with TimeoutException: {}", ex.getMessage());
 			throw new BusinessException(AuthenticationError.MAX_TIMEOUT_REACHED.getCode(), false, AuthenticationError.MAX_TIMEOUT_REACHED.getDescription());

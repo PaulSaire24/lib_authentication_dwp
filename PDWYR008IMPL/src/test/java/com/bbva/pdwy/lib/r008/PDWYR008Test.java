@@ -8,6 +8,7 @@ import com.bbva.elara.domain.transaction.ThreadContext;
 import com.bbva.elara.utility.api.connector.APIConnector;
 import com.bbva.pdwy.dto.auth.salesforce.SalesforceResponseDTO;
 import com.bbva.pdwy.lib.r008.impl.PDWYR008Impl;
+import com.bbva.pdwy.lib.r008.mock.DataMockUtil;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -45,6 +46,8 @@ public class PDWYR008Test {
 	@Mock
 	APIConnector externalApiConnector;
 
+	DataMockUtil dataMockUtil = DataMockUtil.getInstance();
+
 	@Before
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
@@ -64,13 +67,17 @@ public class PDWYR008Test {
 
 	@Test
 	public void executeGetAuthenticationDataTestOk() throws IOException {
-
-		ResponseEntity<SalesforceResponseDTO> response = new ResponseEntity<>(new SalesforceResponseDTO(), HttpStatus.OK);
+		SalesforceResponseDTO responseDTO = dataMockUtil.getSalesforceResponse();
+		ResponseEntity<SalesforceResponseDTO> response = new ResponseEntity<>(responseDTO, HttpStatus.OK);
 		Mockito.when(this.applicationConfigurationService.getProperty(Mockito.anyString())).thenReturn("some value");
 		Mockito.when(this.externalApiConnector.postForEntity(Mockito.anyString(), Mockito.anyObject(), Mockito.eq(SalesforceResponseDTO.class)))
 				.thenReturn(response);
-		SalesforceResponseDTO SalesforceResponse = pdwyR008.executeGetAuthenticationData("some_id");
-		Assert.assertNotNull(SalesforceResponse);
+		SalesforceResponseDTO salesforceResponse = pdwyR008.executeGetAuthenticationData("some_id");
+		Assert.assertNotNull(salesforceResponse);
+		Assert.assertNotNull(salesforceResponse.getAccessToken());
+		Assert.assertNotNull(salesforceResponse.getId());
+		Assert.assertNotNull(salesforceResponse.getInstanceURL());
+		Assert.assertNotNull(salesforceResponse.getIssuedAt());
 	}
 
 	@Test(expected = BusinessException.class)
